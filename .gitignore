@@ -1,0 +1,14 @@
+# Synopsys VCS / Verdi (match anywhere under repo)
+**/csrc/
+**/simv
+**/simv.daidir/
+**/simv.vdb/
+**/ucli.key
+**/vc_hdrs.h
+**/novas.conf
+**/tr_db.log
+**/verdiLog/
+
+# logs / temp
+*.log
+.DS_Store
