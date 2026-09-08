@@ -10,6 +10,7 @@
 | [doc/plans/](doc/plans/) | **计划快照**：`uart_plan_1` / `uart_plan_2` / `uart_plan_3_go` |
 | [doc/rtl.md](doc/rtl.md) | **RTL 文件清单**与模块职责摘要 |
 | [doc/simulation.md](doc/simulation.md) | **仿真与 TB 清单**、`make`/`run.sh` 相关说明、**VCS build 是否 hang** 的判定要点 |
+| [doc/environment_assessment_2026-09-08.md](doc/environment_assessment_2026-09-08.md) | **当前环境评估**：工具链检查结果与 Verilator 开源替代路线 |
 | [doc/conventions.md](doc/conventions.md) | **编码规范**入口 → [.cursor/rules.mdc](.cursor/rules.mdc) |
 | [doc/bugs.md](doc/bugs.md) | **已知问题与待办**（环境/VCS、编译选项、仿真闭环等） |
 
