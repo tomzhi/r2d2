@@ -20,6 +20,12 @@ case "${mode}" in
   sanity-ci)
     make sanity-ci
     ;;
+  verilator-lint)
+    make verilator-lint
+    ;;
+  verilator-smoke)
+    make verilator-smoke
+    ;;
   help|-h|--help)
     make help
     echo ""
@@ -29,10 +35,12 @@ case "${mode}" in
     echo "  ./run.sh regress"
     echo "  ./run.sh regress \"uart_sanity_test uart_rand_test\""
     echo "  ./run.sh sanity-ci"
+    echo "  ./run.sh verilator-lint"
+    echo "  ./run.sh verilator-smoke"
     ;;
   *)
     echo "unsupported mode: ${mode}"
-    echo "use: ./run.sh [build|sim|regress|sanity-ci|help] [test-or-test-list]"
+    echo "use: ./run.sh [build|sim|regress|sanity-ci|verilator-lint|verilator-smoke|help] [test-or-test-list]"
     exit 1
     ;;
 esac

@@ -1,10 +1,6 @@
 # 编码规范入口
 
-项目内 RTL 与 UVM 约定见：
-
-- **[`.cursor/rules.mdc`](../.cursor/rules.mdc)**（Cursor 规则文件，亦为人工可读 Markdown）
-
-要点摘要：
+项目当前采用以下 RTL 与 UVM 约定：
 
 - 命名：`i_` / `o_` / `r_` / `w_`；常量与参数大写  
 - SystemVerilog：`logic`、`always_ff` / `always_comb`；RTL 内不用 `#delay` / `initial`（TB 除外）  

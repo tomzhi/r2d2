@@ -1,5 +1,10 @@
 # 当前环境运行能力与开源仿真器评估（2026-09-08）
 
+> **2026-09-21 更新**：本文保留 2026-09-08 当时的环境快照。当前工作区已经提供
+> Verilator 5.020，仓库也已将轻量回环 testbench 整合至 `sim/verilator/`。
+> 现在可执行 `make -C sim verilator-lint` 和 `make -C sim verilator-smoke`；VCS/UVM
+> 路径仍需在具有 Synopsys VCS 与有效 license 的环境中运行。
+
 ## 目的
 
 - 记录仓库在当前 Codex 工作区中的运行条件与实际检查结果。
@@ -104,4 +109,3 @@ Verilator 可以作为本项目的开源 RTL 仿真与 lint 后端，但现阶�
 - [ ] 对比 Verilator 与 VCS 的复位、采样时序和 framing-error 结果。
 - [ ] 评估约束随机、covergroup 和 expected-error catcher 在选定 UVM/Verilator 版本上的兼容性。
 - [ ] 根据验证结果决定长期采用“双后端”还是“纯开源测试平台”。
-

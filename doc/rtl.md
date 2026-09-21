@@ -1,4 +1,4 @@
-# RTL 生成文件一览
+# RTL 文件一览
 
 目录：[`rtl/`](../rtl/)
 
@@ -10,3 +10,6 @@
 | `uart.sv` | 顶层：例化 baud、TX、RX；端口含 `i_baud_divider` 与主机侧并行口 |
 
 **风格**：与 [编码规范](conventions.md) 一致（`always_ff` / `always_comb`、`logic`、异步低复位等）。
+
+`rtl/` 只保存设计源码；Verilator testbench 与 UVM testbench 均位于 [`sim/`](../sim/)，
+具体入口见 [仿真与验证说明](simulation.md)。

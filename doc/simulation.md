@@ -1,14 +1,28 @@
-# 仿真与验证生成文件一览
+# 仿真与验证文件一览
+
+项目保留两条验证路径。它们共同编译 [`rtl/`](../rtl/) 中的 DUT，但 testbench 和
+工具链相互独立：Verilator 用于快速开源门禁，VCS/UVM 用于完整回归。
 
 ## 目录与脚本
 
 | 路径 | 说明 |
 |------|------|
-| [`sim/README.md`](../sim/README.md) | VCS/UVM 环境变量、`make`/`run.sh` 用法、回归汇总路径 |
-| [`sim/Makefile`](../sim/Makefile) | `make build`（编译门禁）、`make sim`、`make regress`、`make help` |
+| [`sim/README.md`](../sim/README.md) | 双验证路径的依赖、命令和输出说明 |
+| [`sim/Makefile`](../sim/Makefile) | Verilator lint/smoke 与 VCS/UVM build/sim/regress 的统一入口 |
 | [`sim/run.sh`](../sim/run.sh) | 单入口：`build` / `sim` / `regress` |
 | [`sim/regress.sh`](../sim/regress.sh) | 多用例回归，输出 [`sim/logs/regression_summary.log`](../sim/logs/regression_summary.log) |
 | [`sim/filelist.f`](../sim/filelist.f) | VCS 编译文件列表（RTL + TB） |
+| [`sim/verilator/uart_tb.sv`](../sim/verilator/uart_tb.sv) | Verilator 自检式回环 testbench |
+
+## Verilator 快速门禁
+
+```bash
+make -C sim verilator-lint
+make -C sim verilator-smoke
+```
+
+该路径不依赖 UVM，适合开发时快速检查 RTL。测试发送 `A5`、`3C` 并检查回环数据、
+接收超时和 framing error；它不替代下述 VCS/UVM 回归。
 
 ## Testbench（`sim/tb/`）
 

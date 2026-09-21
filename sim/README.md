@@ -1,20 +1,43 @@
-# UART UVM/VCS 运行向导
+# UART 仿真与验证运行向导
+
+本目录统一承载两条相互独立、共用同一套 `../rtl/*.sv` 的验证路径：
+
+- `verilator/uart_tb.sv`：轻量自检式回环测试，适合本地快速门禁。
+- `tb/`：UVM testbench，由 Synopsys VCS 执行 sanity、随机和负向回归。
 
 ## 目录说明
 - `filelist.f`：VCS 编译文件列表。
-- `Makefile`：统一入口（build/sim/regress）。
+- `Makefile`：Verilator 与 VCS/UVM 的统一入口。
 - `run.sh`：命令包装脚本。
 - `regress.sh`：回归执行与 pass rate 汇总。
 - `tb/`：UVM testbench。
+- `verilator/`：不依赖 UVM 的 SystemVerilog testbench。
 - `logs/`：构建、单测和回归汇总日志输出目录。
 
 ## 环境依赖
-- 推荐工具：Synopsys VCS（支持 `-ntb_opts uvm-1.2`）。
+
+- Verilator 快速门禁：GNU Make、Verilator、支持 C++17 的编译器。
+- UVM 完整回归：Synopsys VCS（支持 `-ntb_opts uvm-1.2`）。
 - 可选环境变量：
   - `UVM_HOME`：若需要显式指定 UVM include 路径。
   - `VERBOSITY`：默认 `UVM_MEDIUM`。
 
-## 常用命令
+## Verilator 快速门禁
+
+从仓库根目录执行：
+
+```bash
+make -C sim verilator-lint
+make -C sim verilator-smoke
+```
+
+`verilator-smoke` 会构建 `sim/obj_dir/verilator/Vuart_tb`，将 TX 串行输出回环至 RX，
+依次检查 `8'hA5` 与 `8'h3C`。成功时输出 `AUTOSMOKE PASS`。它用于快速健康检查，
+不替代 UVM 完整回归。
+
+也可使用 `cd sim && ./run.sh verilator-smoke`。当前已使用 Verilator 5.020 验证。
+
+## VCS/UVM 常用命令
 - 编译门禁（语法/elaboration）：
   - `make build`
   - 或 `./run.sh build`
@@ -31,6 +54,8 @@
   - 或 `./run.sh sanity-ci`
   - 行为：自动检查 VCS 可用性、执行 `clean -> build -> uart_sanity_test`，
     并在失败时返回非 0 且提示关键日志路径。
+
+清理两类仿真生成物统一使用 `make -C sim clean`。
 
 ## 回归汇总输出
 - 汇总文件：`logs/regression_summary.log`

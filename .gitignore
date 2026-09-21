@@ -11,4 +11,5 @@
 
 # logs / temp
 *.log
+**/obj_dir/
 .DS_Store

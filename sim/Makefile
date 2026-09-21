@@ -2,6 +2,7 @@
 
 VCS ?= vcs
 SIMV ?= ./simv
+VERILATOR ?= verilator
 TEST ?= uart_sanity_test
 VERBOSITY ?= UVM_MEDIUM
 TESTS ?=
@@ -19,8 +20,12 @@ endif
 
 BUILD_LOG := logs/build.log
 SIM_LOG := logs/$(TEST).log
+VERILATOR_DIR := obj_dir/verilator
+VERILATOR_TOP := uart_tb
+VERILATOR_RTL := ../rtl/uart.sv ../rtl/uart_baud_gen.sv \
+  ../rtl/uart_tx.sv ../rtl/uart_rx.sv
 
-.PHONY: help build compile sim regress sanity-ci clean
+.PHONY: help build compile sim regress sanity-ci verilator-lint verilator-smoke clean
 
 help:
 >@echo "Targets:"
@@ -28,6 +33,8 @@ help:
 >@echo "  make sim TEST=<name>  # run single test"
 >@echo "  make regress          # run test list and summary"
 >@echo "  make sanity-ci        # minimal sanity gate with env check"
+>@echo "  make verilator-lint   # lint RTL with Verilator"
+>@echo "  make verilator-smoke  # build and run lightweight loopback test"
 >@echo "  make clean            # clean simulation outputs"
 >@echo ""
 >@echo "Variables:"
@@ -56,8 +63,18 @@ regress: build
 sanity-ci:
 >./sanity_ci.sh
 
+verilator-lint:
+>$(VERILATOR) --lint-only --timing --assert --Wall -Wno-fatal $(VERILATOR_RTL)
+
+verilator-smoke:
+>$(VERILATOR) --binary --timing --assert --Wall -Wno-fatal \
+>  --top-module $(VERILATOR_TOP) --Mdir $(VERILATOR_DIR) \
+>  verilator/uart_tb.sv $(VERILATOR_RTL)
+>$(VERILATOR_DIR)/V$(VERILATOR_TOP)
+
 clean:
 >@rm -rf simv simv.daidir csrc ucli.key novas* DVEfiles verdiLog
+>@rm -rf obj_dir
 >@rm -f *.vpd
 >@rm -rf *.vdb
 >@rm -f logs/*.log
