@@ -31,9 +31,15 @@ make -C sim verilator-lint
 make -C sim verilator-smoke
 ```
 
-`verilator-smoke` 会构建 `sim/obj_dir/verilator/Vuart_tb`，将 TX 串行输出回环至 RX，
-依次检查 `8'hA5` 与 `8'h3C`。成功时输出 `AUTOSMOKE PASS`。它用于快速健康检查，
-不替代 UVM 完整回归。
+`verilator-smoke` 默认在 `/tmp/r2d2-verilator-<uid>/` 中构建 `Vuart_tb`，避免受限
+工作区禁止仿真器写入源码目录。它将 TX 串行输出回环至 RX，依次检查 `8'hA5` 与
+`8'h3C`；成功时输出 `AUTOSMOKE PASS`。它用于快速健康检查，不替代 UVM 完整回归。
+
+如需指定其他构建目录，可以覆盖变量：
+
+```bash
+make -C sim verilator-smoke VERILATOR_DIR=/path/to/build
+```
 
 也可使用 `cd sim && ./run.sh verilator-smoke`。当前已使用 Verilator 5.020 验证。
 

@@ -20,7 +20,8 @@ endif
 
 BUILD_LOG := logs/build.log
 SIM_LOG := logs/$(TEST).log
-VERILATOR_DIR := obj_dir/verilator
+VERILATOR_DEFAULT_DIR := /tmp/r2d2-verilator-$(shell id -u)
+VERILATOR_DIR ?= $(VERILATOR_DEFAULT_DIR)
 VERILATOR_TOP := uart_tb
 VERILATOR_RTL := ../rtl/uart.sv ../rtl/uart_baud_gen.sv \
   ../rtl/uart_tx.sv ../rtl/uart_rx.sv
@@ -74,7 +75,7 @@ verilator-smoke:
 
 clean:
 >@rm -rf simv simv.daidir csrc ucli.key novas* DVEfiles verdiLog
->@rm -rf obj_dir
+>@rm -rf "$(VERILATOR_DEFAULT_DIR)"
 >@rm -f *.vpd
 >@rm -rf *.vdb
 >@rm -f logs/*.log

@@ -22,7 +22,8 @@ make -C sim verilator-smoke
 ```
 
 该路径不依赖 UVM，适合开发时快速检查 RTL。测试发送 `A5`、`3C` 并检查回环数据、
-接收超时和 framing error；它不替代下述 VCS/UVM 回归。
+接收超时和 framing error；它不替代下述 VCS/UVM 回归。构建产物默认放在
+`/tmp/r2d2-verilator-<uid>/`，也可通过 `VERILATOR_DIR` 覆盖。
 
 ## Testbench（`sim/tb/`）
 
